@@ -156,7 +156,7 @@ def train_model(model, batch_gen, num_train_steps, weights_fld):
 def main():
     model = SkipGramModel(VOCAB_SIZE, EMBED_SIZE, BATCH_SIZE, NUM_SAMPLED, LEARNING_RATE)
     model.build_graph()
-    batch_gen = process_data(WEIGHTS_FLD, VOCAB_SIZE, BATCH_SIZE, SKIP_WINDOW)
+    batch_gen = process_data(VOCAB_SIZE, BATCH_SIZE, SKIP_WINDOW)
     train_model(model, batch_gen, NUM_TRAIN_STEPS, WEIGHTS_FLD)
 
 

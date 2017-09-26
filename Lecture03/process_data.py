@@ -47,14 +47,14 @@ def read_data(file_path):
         # tf.compat.as_str() converts the input into the string
     return words
 
-def build_vocab(path, words, vocab_size):
+def build_vocab(words, vocab_size):
     """ Build vocabulary of VOCAB_SIZE most frequent words """
     dictionary = dict()
     count = [('UNK', -1)]
     count.extend(Counter(words).most_common(vocab_size - 1))
     index = 0
-    utils.make_dir(path)
-    with open(path + '/vocab_1000.tsv', "w") as f:
+    utils.make_dir('metafile')
+    with open('metafile/vocab_1000.tsv', "w") as f:
         for word, _ in count:
             dictionary[word] = index
             if index < 1000:
@@ -87,11 +87,11 @@ def get_batch(iterator, batch_size):
             center_batch[index], target_batch[index] = next(iterator)
         yield center_batch, target_batch
 
-def process_data(path, vocab_size, batch_size, skip_window):
+def process_data(vocab_size, batch_size, skip_window):
 
     file_path = download(FILE_NAME, EXPECTED_BYTES)
     words = read_data(file_path)
-    dictionary, _ = build_vocab(path, words, vocab_size)
+    dictionary, _ = build_vocab(words, vocab_size)
     index_words = convert_words_to_index(words, dictionary)
     del words # to save memory
     single_gen = generate_sample(index_words, skip_window)
